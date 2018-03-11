@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TS_salesmanTransfer" parallel="false">
+
+	<test name="Salesman Transfer"> 
+		<classes>
+			<class name="com.ChannelPatner.transfer.SalesmanTransfer"></class>
+		</classes>
+	</test>
+	
+	<test name="Salesman Transfer PullBack"> 
+		<classes>
+			<class name="com.ChannelPatner.Reports.SalesmanBalanceReport</class>
+		</classes>
+	</test>
+	
+</suite>
