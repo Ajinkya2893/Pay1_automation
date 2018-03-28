@@ -1,4 +1,4 @@
-package com.ChannePatner.createRetailer;
+package com.ChannelPatner.createRetailer;
 
 import java.io.FileInputStream;
 import java.util.Hashtable;
@@ -72,8 +72,10 @@ public class CreateRetailer extends AppBase{
 				throw new SkipException("Skipping the test as this set of data is set to N");
 			}
 			this.driver = new DistributorLogin().getLogin(data);
-			Thread.sleep(2000);
-			driver.findElement(By.xpath(prop.getProperty("backbtn"))).click(); test.log(LogStatus.INFO, "Navigating back");
+			Util = new Utility(test, driver);
+			Thread.sleep(3000);
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();
 			driver.findElement(By.xpath(prop.getProperty("createRetailer"))).click(); test.log(LogStatus.INFO, "Clicking on Create Retailer");
 			driver.findElement(By.xpath(prop.getProperty("retailerNu"))).sendKeys(data.get("Number")); test.log(LogStatus.INFO, "Entering the Mobile Number "+data.get("Number"));
 			driver.findElement(By.xpath(prop.getProperty("retailerShop"))).sendKeys(data.get("shopName")); test.log(LogStatus.INFO, "Entering the Shop Name "+data.get("shopName"));

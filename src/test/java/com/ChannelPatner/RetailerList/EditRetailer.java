@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -20,6 +21,8 @@ import Utility.Constants;
 import Utility.DataUtils;
 import Utility.Excel_Reader;
 import Utility.ExtentManager;
+import Utility.Utility;
+import io.appium.java_client.TouchAction;
 
 public class EditRetailer extends AppBase{
 
@@ -71,15 +74,25 @@ public class EditRetailer extends AppBase{
 				throw new SkipException("Skipping the test as this set of data is set to N");
 			}
 			this.driver = new DistributorLogin().getLogin(data);
+			Util = new Utility(test, driver);
 			Thread.sleep(3000);
-			driver.findElement(By.xpath(prop.getProperty("backbtn"))).click();
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();
 			driver.findElement(By.xpath(prop.getProperty("retailerList"))).click();
-			if(data.get("").equals(driver.findElement(By.id(prop.getProperty("mobileno"))).getText())) {
+			driver.findElement(By.xpath(prop.getProperty("retailerSearch"))).sendKeys(data.get("retailerNu"));  test.log(LogStatus.INFO, "Entering the retailer number");
+			Thread.sleep(2000);
+			new TouchAction(driver).tap(200, 456).perform().release();
+			if(data.get("retailerNu").equals(driver.findElement(By.id(prop.getProperty("mobileno"))).getText())) {
 				msg = driver.findElement(By.id(prop.getProperty("shopname"))).getText();
 				test.log(LogStatus.INFO, "Retailer Shop Name "+msg);
-				driver.findElement(By.xpath(prop.getProperty("edit"))).click();
-				
-				
+				driver.findElement(By.id(prop.getProperty("edit"))).click(); test.log(LogStatus.INFO, "Clicking on Edit Link");
+				driver.findElement(By.id(prop.getProperty("shopname"))).sendKeys(data.get("NewName")); test.log(LogStatus.PASS, "Entering the Shop Name");
+				driver.findElement(By.xpath(prop.getProperty("step2"))).click(); test.log(LogStatus.INFO, "Navigated to Step 2");
+				driver.hideKeyboard();
+				driver.findElement(By.id(prop.getProperty("savebtn"))).click(); test.log(LogStatus.INFO, "Clicking on Save Button");
+				driver.findElement(By.id(prop.getProperty("cancelbtn"))).click(); 
+				Assert.assertEquals(driver.findElement(By.id(prop.getProperty("shopname"))).getText(), data.get("NewName")); 
+				test.log(LogStatus.PASS, "Verified the Updated Retailer Name");
 				test.log(LogStatus.PASS, msg);fail = false;
 			}else {
 				msg = "No Retailer Number matched";

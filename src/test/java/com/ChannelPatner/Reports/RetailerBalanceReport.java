@@ -73,29 +73,32 @@ public class RetailerBalanceReport extends AppBase{
 		}
 		try {
 			this.driver = new DistributorLogin().getLogin(data);
+			Util = new Utility(test, driver);
 			Thread.sleep(3000);
-			driver.findElement(By.xpath(prop.getProperty("backbtn"))).click();	
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();	
 			driver.findElement(By.xpath(prop.getProperty("reportretailer"))).click(); test.log(LogStatus.INFO, "Clicking on Report Retailer");
 			driver.findElement(By.xpath(prop.getProperty("retailernum"))).sendKeys(data.get("Number")); test.log(LogStatus.INFO, "Clicking on Report Retailer");
 			Thread.sleep(2000);
 			new TouchAction(driver).tap(400, 490).perform().release();
-		//	System.out.println(driver.findElement(By.id(prop.getProperty("fetchretailnum"))).getText() +"===="+ data.get("Number"));
+			//	System.out.println(driver.findElement(By.id(prop.getProperty("fetchretailnum"))).getText() +"===="+ data.get("Number"));
 			if((driver.findElement(By.id(prop.getProperty("fetchretailnum"))).getText()).equals(data.get("Number"))) {
 				msg = "Retailer Number matched"; test.log(LogStatus.PASS, msg);
 				if((driver.findElement(By.id(prop.getProperty("fetchretailamo"))).getText()).contains(data.get("transferamount"))){
 					msg = "Retailer Amount matched"; test.log(LogStatus.PASS, msg);
 					driver.findElement(By.id(prop.getProperty("pullbackbtn"))).click(); test.log(LogStatus.INFO, "Clicking on Pull Back Button");
 					msg = "Successfully pull backed the amount";
-					new Utility(test, driver).takeScreenShot(msg);
-					driver.findElement(By.xpath(prop.getProperty("okbtn"))).click(); test.log(LogStatus.INFO, "Clicking on Ok Button");
-					new Utility(test, driver).takeScreenShot(msg);test.log(LogStatus.PASS, msg); fail = false;
+					Util.takeScreenShot(msg);
+					//driver.findElement(By.id(prop.getProperty("okbtn"))).click(); test.log(LogStatus.INFO, "Clicking on Ok Button");
+					new TouchAction(driver).tap(400, 1100).perform().release();
+					Util.takeScreenShot(msg);test.log(LogStatus.PASS, msg); fail = false;
 				}else {
 					msg = "Retailer Amount mismatched";
-					new Utility(test, driver).takeScreenShot(msg);test.log(LogStatus.ERROR, msg); fail = true;
+					Util.takeScreenShot(msg);test.log(LogStatus.ERROR, msg); fail = true;
 				}
 			}else {
 				msg = "Retailer Nummber Mismatched";
-				new Utility(test, driver).takeScreenShot(msg);test.log(LogStatus.ERROR, msg); fail = true;
+				Util.takeScreenShot(msg);test.log(LogStatus.ERROR, msg); fail = true;
 			}
 		} catch (InterruptedException e) {
 			msg = "Unable to fetch retailer Balance";

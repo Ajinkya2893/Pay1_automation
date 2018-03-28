@@ -73,8 +73,10 @@ public class SalesmanTransfer extends AppBase{
 				throw new SkipException("Skipping the test as this set of data is set to N");
 			}
 			this.driver = new DistributorLogin().getLogin(data);
-			Thread.sleep(8000);
-			driver.findElement(By.xpath(prop.getProperty("backbtn"))).click();
+			Util = new Utility(test, driver);
+			Thread.sleep(3000);
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();	
 			driver.findElement(By.xpath(prop.getProperty("baltransfer_xpath"))).click(); test.log(LogStatus.INFO, "Clicking on Transfer button");
 			driver.findElement(By.xpath(prop.getProperty("salesman"))).click();  test.log(LogStatus.INFO, "Selecting salesman option");
 			driver.findElement(By.xpath(prop.getProperty("retailerName"))).sendKeys(data.get("Number"));  test.log(LogStatus.INFO, "Entering the salesman number");

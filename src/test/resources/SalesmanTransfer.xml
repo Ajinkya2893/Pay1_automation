@@ -9,7 +9,7 @@
 	
 	<test name="Salesman Transfer PullBack"> 
 		<classes>
-			<class name="com.ChannelPatner.Reports.SalesmanBalanceReport</class>
+			<class name="com.ChannelPatner.Reports.SalesmanBalanceReport"></class>
 		</classes>
 	</test>
 	

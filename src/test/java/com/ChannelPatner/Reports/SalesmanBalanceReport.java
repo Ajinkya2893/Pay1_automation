@@ -21,6 +21,7 @@ import Utility.DataUtils;
 import Utility.Excel_Reader;
 import Utility.ExtentManager;
 import Utility.Utility;
+import io.appium.java_client.TouchAction;
 
 public class SalesmanBalanceReport extends AppBase{
 
@@ -72,17 +73,22 @@ public class SalesmanBalanceReport extends AppBase{
 				throw new SkipException("Skipping the test as this set of data is set to N");
 			}
 			this.driver = new DistributorLogin().getLogin(data);
-			Thread.sleep(8000);
-			driver.findElement(By.xpath(prop.getProperty("reportsalesman"))).click();
-			driver.findElement(By.xpath(prop.getProperty("retailernum"))).sendKeys(data.get("Number"));
-			/*Thread.sleep(2000);
-			new TouchAction(driver).tap(400, 517).perform().release();*/
-			if((driver.findElement(By.id(prop.getProperty("fetchretailnum"))).getText()).equals(data.get("Number"))) {
+			Util = new Utility(test, driver);
+			Thread.sleep(3000);
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();	
+			driver.findElement(By.xpath(prop.getProperty("reportretailer"))).click();
+			/*			driver.findElement(By.xpath(prop.getProperty("retailernum"))).sendKeys(data.get("Number"));
+			Thread.sleep(2000);
+			new TouchAction(driver).tap(400, 490).perform().release();*/
+			System.out.println(driver.findElement(By.id(prop.getProperty("fetchretailnum"))).getText());
+			System.out.println(data.get("Number"));
+			if((driver.findElement(By.xpath(prop.getProperty("fetchsalenum"))).getText()).contains(data.get("Number"))) {
 				msg = "Retailer Number matched";
 				if((driver.findElement(By.id(prop.getProperty("fetchretailamo"))).getText()).contains(data.get("transferamount"))){
 					msg = "Retailer Amount matched";
 					driver.findElement(By.id(prop.getProperty("pullbackbtn"))).click();new Utility(test, driver).takeScreenShot(msg);
-					driver.findElement(By.xpath(prop.getProperty("okbtn"))).click();
+					new TouchAction(driver).tap(400, 1100).perform().release();
 					new Utility(test, driver).takeScreenShot(msg);test.log(LogStatus.PASS, msg); fail = false;
 				}else {
 					msg = "Retailer Amount mismatched";

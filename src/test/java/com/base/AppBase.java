@@ -61,6 +61,7 @@ public class AppBase {
 			capabilities.setCapability(CapabilityType.BROWSER_NAME, "Android");
 			capabilities.setCapability(CapabilityType.VERSION, "6.0");
 			capabilities.setCapability("platformName", "Android");
+		//	capabilities.setCapability("noReset", "true");
 			capabilities.setCapability("appPackage", "com.mindsarray.pay1distributor");
 			capabilities.setCapability("appActivity", "com.mindsarray.pay1distributor.SplashScreenActivity");
 			driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
@@ -75,20 +76,21 @@ public class AppBase {
 
 	public void NavigatetoLogin() {
 		try {
-			if(new Utility(test, driver).isElementPresent("allow_xpath")){ test.log(LogStatus.INFO, "Navigated to application");
-			driver.findElement(By.xpath("//android.widget.Button[@text='Allow']")).click(); test.log(LogStatus.INFO, "Clicking on Allow button");
-			if(new Utility(test, driver).isElementPresent("menu_id")) {
-				driver.findElement(By.id("com.mindsarray.pay1distributor:id/action_side_panel")).click();
-				driver.findElement(By.xpath("//android.widget.TextView[@text='Login']")).click();
-				NavigatetoLogin();
-			}
-			driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
+			if(new Utility(test, driver).isElementPresent("allow_xpath")){ 
+				test.log(LogStatus.INFO, "Navigated to application");
+				driver.findElement(By.xpath("//android.widget.Button[@text='Allow']")).click(); test.log(LogStatus.INFO, "Clicking on Allow button");
+				if(new Utility(test, driver).isElementPresent("menu_id")) {
+					driver.findElement(By.id("com.mindsarray.pay1distributor:id/action_side_panel")).click();
+					driver.findElement(By.xpath("//android.widget.TextView[@text='Login']")).click();
+					NavigatetoLogin();
+				}
+				driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//android.widget.Button[@text='Deny']")).click();  test.log(LogStatus.INFO, "Clicking on Deny button");
 			}
 			else if(new Utility(test, driver).isElementPresent("menu_id")) {
 				driver.findElement(By.id("com.mindsarray.pay1distributor:id/action_side_panel")).click();
@@ -99,7 +101,7 @@ public class AppBase {
 			System.out.println("Unable to check the options");
 			test.log(LogStatus.ERROR, "Unable to navigate to Login Page");
 			new Utility(test, driver).takeScreenShot("Unable to navigate to login page");
-			e.printStackTrace();
+			//e.printStackTrace();
 		} 
 	}	
 

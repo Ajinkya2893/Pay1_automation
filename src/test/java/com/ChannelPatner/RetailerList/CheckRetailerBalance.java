@@ -20,6 +20,7 @@ import Utility.Constants;
 import Utility.DataUtils;
 import Utility.Excel_Reader;
 import Utility.ExtentManager;
+import Utility.Utility;
 import io.appium.java_client.TouchAction;
 
 public class CheckRetailerBalance extends AppBase{
@@ -72,8 +73,10 @@ public class CheckRetailerBalance extends AppBase{
 				throw new SkipException("Skipping the test as this set of data is set to N");
 			}
 			this.driver = new DistributorLogin().getLogin(data);
+			Util = new Utility(test, driver);
 			Thread.sleep(3000);
-			driver.findElement(By.xpath(prop.getProperty("backbtn"))).click();
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();
 			driver.findElement(By.xpath(prop.getProperty("retailerList"))).click();
 			driver.findElement(By.xpath(prop.getProperty("retailerSearch"))).sendKeys(data.get("retailerNu"));  test.log(LogStatus.INFO, "Entering the retailer number");
 			Thread.sleep(2000);
@@ -83,9 +86,10 @@ public class CheckRetailerBalance extends AppBase{
 			if((data.get("retailerNu")).equals(driver.findElement(By.id(prop.getProperty("mobileno"))).getText())) {
 				msg = driver.findElement(By.id(prop.getProperty("shopname"))).getText();
 				test.log(LogStatus.INFO, "Retailer Shop Name "+msg);
-				driver.findElement(By.id(prop.getProperty("mobileno"))).click();
+				driver.findElement(By.xpath("//android.widget.TextView[@text='"+data.get("retailerNu")+"']")).click();
 				Thread.sleep(5000);
 				msg = driver.findElement(By.id(prop.getProperty("balcheck"))).getText();
+				System.out.println(driver.findElement(By.id(prop.getProperty("balcheck"))).getText());
 				test.log(LogStatus.PASS, "Retailer Balance is "+msg);
 				test.log(LogStatus.PASS, msg);fail = false;
 			}else {

@@ -73,8 +73,10 @@ public class RetailerTransfer extends AppBase{
 				throw new SkipException("Skipping the test as this set of data is set to N");
 			}
 			this.driver = new DistributorLogin().getLogin(data);
+			Util = new Utility(test, driver);
 			Thread.sleep(3000);
-			driver.findElement(By.xpath(prop.getProperty("backbtn"))).click();
+			if(Util.isElementPresent("backbtn_xpath"))
+				driver.findElement(By.xpath(prop.getProperty("backbtn_xpath"))).click();
 			driver.findElement(By.xpath(prop.getProperty("baltransfer_xpath"))).click(); test.log(LogStatus.INFO, "Clicking on Transfer button");
 			driver.findElement(By.xpath(prop.getProperty("retailer"))).click();  test.log(LogStatus.INFO, "Selecting retailer option");
 			driver.findElement(By.xpath(prop.getProperty("retailerName"))).sendKeys(data.get("Number"));  test.log(LogStatus.INFO, "Entering the retailer number");
@@ -86,7 +88,7 @@ public class RetailerTransfer extends AppBase{
 			driver.findElement(By.xpath(prop.getProperty("confirmButton"))).click();  test.log(LogStatus.INFO, "Clicking on Confirm Button");
  			Thread.sleep(2000);
  			msg = "Successfully transfered the Amount";
- 			new Utility(test, driver).takeScreenShot(msg);test.log(LogStatus.PASS, msg);
+ 			Util.takeScreenShot(msg);test.log(LogStatus.PASS, msg);
  			msg = driver.findElement(By.id("com.mindsarray.pay1distributor:id/message")).getText();
  			test.log(LogStatus.PASS, msg);fail = false;
 		} catch (InterruptedException e) {

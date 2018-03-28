@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TS_reatilerTransfer" parallel="false">
+
+	<test name="Retailer Balance">
+		<classes>
+			<class name="com.ChannelPatner.RetailerList.CheckRetailerBalance"></class>
+		</classes>
+	</test>
+
+	<test name="Edit Retailer">
+		<classes>
+			<class name="com.ChannelPatner.RetailerList.EditRetailer"></class>
+		</classes>
+	</test>
+
+	<test name="Retailer Create">
+		<classes>
+			<class name="com.ChannelPatner.createRetailer.CreateRetailer"></class>
+		</classes>
+	</test>
+
+</suite>
