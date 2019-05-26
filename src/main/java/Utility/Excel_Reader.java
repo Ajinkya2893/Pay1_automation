@@ -35,7 +35,7 @@ public class Excel_Reader {
 	public Excel_Reader(String path) {
 		this.path = path;
 		try {
-			//excel = new File(path);
+			excel = new File(path);
 			//Fileinput stream to read the path of the file
 			fis = new FileInputStream(path); 
 			//XSSFworkbook to read the xls and xlsx file format files
